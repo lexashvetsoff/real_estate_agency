@@ -6,9 +6,13 @@ def set_new_building(apps, schema_editor):
     Flat = apps.get_model('property', 'Flat')
     for flat in Flat.objects.all():
         if flat.construction_year < 2015:
-            flat.new_building = False
+            flat.objects.update_or_create(
+                set_new_building=False
+            )
         else:
-            flat.new_building = True
+            flat.objects.update_or_create(
+                set_new_building=True
+            )
         flat.save()
 
 
